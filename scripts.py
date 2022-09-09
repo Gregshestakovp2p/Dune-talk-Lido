@@ -144,7 +144,7 @@ def create_total_tvl(dune_key):
 
 def create_kusama_depositors_table(file_name):
     ksm_holders=pd.read_csv(file_name)
-    ksm_holders=ksm_holders.rename(columns={'Time':'timestamp','monitor_holders_amount{instance="ksm-monitor.prod.lido.mixbytes.io:80", job="monitor"}':'ksm_depositors'})
+    ksm_holders=ksm_holders.rename(columns={'Time':'timestamp','monitor_lido_deposited_events_number{instance="ksm-monitor.prod.lido.mixbytes.io:80", job="monitor"}':'ksm_depositors'})
     ksm_holders['date']=pd.to_datetime(ksm_holders['timestamp']).dt.date
     ksm_holders=ksm_holders.groupby('date').tail(1)
     ksm_holders_result=ksm_holders[['date','ksm_depositors']]
@@ -153,7 +153,7 @@ def create_kusama_depositors_table(file_name):
 
 def create_polkadot_depositors_table(file_name):
     dot_holders=pd.read_csv(file_name)
-    dot_holders=dot_holders.rename(columns={'Time':'timestamp','monitor_holders_amount{instance="dot-monitor.prod.lido.mixbytes.io:80", job="monitor"}':'dot_depositors'})
+    dot_holders=dot_holders.rename(columns={'Time':'timestamp','monitor_lido_deposited_events_number{instance="dot-monitor.prod.lido.mixbytes.io:80", job="monitor"}':'dot_depositors'})
     dot_holders['date']=pd.to_datetime(dot_holders['timestamp']).dt.date
     dot_holders=dot_holders.groupby('date').tail(1)
     dot_holders_result=dot_holders[['date','dot_depositors']]
@@ -175,7 +175,7 @@ def create_matic_depositors_table(execution_id,dune_key):
     return matic_eth_depositors_final
 
 def create_total_depositor_table(dune_key):
-    matic_eth_depositors=create_matic_depositors_table('01GCFHDPH91BXN38YFDN0DFFE2',dune_key)
+    matic_eth_depositors=create_matic_depositors_table('01GCGM0BNXDA0WRSD41MQYAW9X',dune_key)
     sol_depositors=create_solana_depositors_table('01GCFH306YNAXXAT1VHV867R2P',dune_key)
     kusama_depositors=create_kusama_depositors_table('Holders_amount_stKSM.csv')
     dot_depositors=create_polkadot_depositors_table('Holders_amount_stDOT.csv')
